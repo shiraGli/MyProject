@@ -9,19 +9,24 @@ namespace Myproject.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
-        private static List<Student> _students=new List<Student>();
+        private DataContext _dataContext;
+        private static int id = 0;
+        public StudentsController(DataContext dataContext)
+        {
+            _dataContext = dataContext;
+        }
         // GET: api/<StudentsController>
         [HttpGet]
             public  IEnumerable <Student> Get()
         {
-               return _students;
+               return _dataContext._students;
         }
 
         // GET api/<StudentsController>/5
         [HttpGet("{id}")]
         public ActionResult <Student> Get(int id)
         {
-            var stu =_students.Find(s=>s.Id == id);
+            var stu = _dataContext._students.Find(s=>s.Id == id);
             if(stu==null)
                 return NotFound();
             else 
@@ -32,14 +37,15 @@ namespace Myproject.Controllers
         [HttpPost]
         public void Post([FromBody] Student student1)
         {
-            _students.Add(new Student{Id=1,Name= student1.Name } );
+;            id++;
+            _dataContext._students.Add(new Student{Id=id,Name= student1.Name } );
         }
 
         // PUT api/<StudentsController>/5
         [HttpPut("{id}")]
         public ActionResult  Put(int id, [FromBody] string value)
         {
-            var stu = _students.Find(s => s.Id == id);
+            var stu = _dataContext._students.Find(s => s.Id == id);
             if (stu == null)
                 return NotFound();
             else
@@ -55,12 +61,12 @@ namespace Myproject.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var stu = _students.Find(s => s.Id == id);
+            var stu = _dataContext._students.Find(s => s.Id == id);
             if (stu == null)
                 return NotFound();
             else
             {
-                _students.Remove(stu);
+                _dataContext._students.Remove(stu);
                 return Ok();
             }
         }
