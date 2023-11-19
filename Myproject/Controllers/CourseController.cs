@@ -9,19 +9,24 @@ namespace Myproject.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private static List<Course> _course = new List<Course>();
+        private DataContext _dataContext;
+        private static int id = 0;
+        public CourseController(DataContext dataContext)
+        {
+            _dataContext = dataContext;
+        }
         // GET: api/<CourseController>
         [HttpGet]
         public IEnumerable<Course> Get()
         {
-            return _course;
+            return _dataContext._course;
         }
 
         // GET api/<CourseController>/5
         [HttpGet("{id}")]
         public ActionResult<Course> Get(int id)
         {
-            var course = _course.Find(s => s.Id == id);
+            var course = _dataContext._course.Find(s => s.Id == id);
             if (course == null)
                 return NotFound();
             else
@@ -32,7 +37,8 @@ namespace Myproject.Controllers
         [HttpPost]
         public void Post([FromBody] Course course1)
         {
-            _course.Add(new Course { Id = 1, Name = course1.Name });
+            id++;
+            _dataContext._course.Add(new Course { Id = id, Name = course1.Name });
         }
 
         // PUT api/<CourseController>/5
@@ -40,7 +46,7 @@ namespace Myproject.Controllers
         public ActionResult  Put(int id, [FromBody] string value)
         {
 
-            var course = _course.Find(s => s.Id == id);
+            var course = _dataContext._course.Find(s => s.Id == id);
             if (course == null)
                 return NotFound();
             else
@@ -55,12 +61,12 @@ namespace Myproject.Controllers
         public  ActionResult Delete(int id)
         {
 
-            var course = _course.Find(s => s.Id == id);
+            var course = _dataContext._course.Find(s => s.Id == id);
             if (course == null)
                 return NotFound();
             else
             {
-                _course.Remove(course);
+                _dataContext._course.Remove(course);
                 return Ok();
             }
         }

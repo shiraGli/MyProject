@@ -9,19 +9,25 @@ namespace Myproject.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        private static List<City> _city = new List<City>();
+        private readonly DataContext _dataContext;
+      
+        public CityController(DataContext context)
+        {
+           _dataContext = context;
+        }
+        
         // GET: api/<CityController>
         [HttpGet]
         public IEnumerable<City> Get()
         {
-            return _city;
+            return _dataContext.city;
         }
 
         // GET api/<CityController>/5
         [HttpGet("{id}")]
         public ActionResult <City> Get(String name)
         {
-            var course = _city.Find(s => s.Name == name);
+            var course = _dataContext.city.Find(s => s.Name == name);
             if (course == null)
                 return NotFound();
             else
@@ -32,7 +38,7 @@ namespace Myproject.Controllers
         [HttpPost]
         public void Post([FromBody] City city1)
         {
-            _city.Add(new City { Name = city1.Name,Count=city1.Count });
+            _dataContext.city.Add(new City { Name = city1.Name,Count=city1.Count });
         }
 
         // PUT api/<CityController>/5
@@ -40,7 +46,7 @@ namespace Myproject.Controllers
         public ActionResult  Put(int count, [FromBody] string name)
         {
 
-            var course = _city.Find(s => s.Name == name);
+            var course = _dataContext.city.Find(s => s.Name == name);
             if (course == null)
                 return NotFound();
             else
@@ -54,12 +60,12 @@ namespace Myproject.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(string name)
         {
-            var course = _city.Find(s => s.Name == name);
+            var course = _dataContext.city.Find(s => s.Name == name);
             if (course == null)
                 return NotFound();
             else
             {
-                _city.Remove(course);
+                _dataContext.city.Remove(course);
                 return Ok();
             }
         }
