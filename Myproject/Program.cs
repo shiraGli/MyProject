@@ -1,4 +1,8 @@
 using Myproject;
+using Solid.Core.Repository;
+using Solid.Core.Servise;
+using Solid.Data;
+using Solid.Servise;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +13,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<DataContext>();
+builder.Services.AddScoped<ICityServise, CityServise>();
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<ICourseServise, CorseServise>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+
 
 var app = builder.Build();
 

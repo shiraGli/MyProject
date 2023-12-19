@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Myproject.Entities;
+using Solid.Core;
+using Solid.Core.Servise;
+using Solid.Servise;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,25 +11,25 @@ namespace Myproject.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        private readonly DataContext _dataContext;
+        private readonly ICityServise _cityServise;
       
-        public CityController(DataContext context)
+        public CityController(ICityServise cityServise)
         {
-           _dataContext = context;
+            _cityServise = cityServise;
         }
         
         // GET: api/<CityController>
         [HttpGet]
-        public IEnumerable<City> Get()
+        public ActionResult<City> Get()
         {
-            return _dataContext.city;
+            return Ok(_cityServise.GetCities());
         }
 
         // GET api/<CityController>/5
         [HttpGet("{id}")]
         public ActionResult <City> Get(String name)
         {
-            var course = _dataContext.city.Find(s => s.Name == name);
+            var course = _cityServise.GetCities().Find(s => s.Name == name);
             if (course == null)
                 return NotFound();
             else
@@ -38,7 +40,7 @@ namespace Myproject.Controllers
         [HttpPost]
         public void Post([FromBody] City city1)
         {
-            _dataContext.city.Add(new City { Name = city1.Name,Count=city1.Count });
+            _cityServise.city.Add(new City { Name = city1.Name,Count=city1.Count });
         }
 
         // PUT api/<CityController>/5
@@ -46,7 +48,7 @@ namespace Myproject.Controllers
         public ActionResult  Put(int count, [FromBody] string name)
         {
 
-            var course = _dataContext.city.Find(s => s.Name == name);
+            var course = _cityServise.city.Find(s => s.Name == name);
             if (course == null)
                 return NotFound();
             else

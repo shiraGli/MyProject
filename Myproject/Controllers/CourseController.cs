@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Myproject.Entities;
+using Solid.Core;
+using Solid.Core.Servise;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,24 +11,24 @@ namespace Myproject.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private DataContext _dataContext;
+        private ICourseServise _courseServise;
         private static int id = 0;
-        public CourseController(DataContext dataContext)
+        public CourseController(ICourseServise courseServise)
         {
-            _dataContext = dataContext;
+            _courseServise = courseServise;
         }
         // GET: api/<CourseController>
         [HttpGet]
-        public IEnumerable<Course> Get()
+        public ActionResult<Course> Get()
         {
-            return _dataContext._course;
+            return Ok(_courseServise.GetCourses();
         }
 
         // GET api/<CourseController>/5
         [HttpGet("{id}")]
         public ActionResult<Course> Get(int id)
         {
-            var course = _dataContext._course.Find(s => s.Id == id);
+            var course = _courseServise.GetCourses().Find(s => s.Id == id);
             if (course == null)
                 return NotFound();
             else
@@ -38,7 +40,7 @@ namespace Myproject.Controllers
         public void Post([FromBody] Course course1)
         {
             id++;
-            _dataContext._course.Add(new Course { Id = id, Name = course1.Name });
+            _courseServise.GetCourses().Add(new Course { Id = id, Name = course1.Name });
         }
 
         // PUT api/<CourseController>/5
@@ -46,7 +48,7 @@ namespace Myproject.Controllers
         public ActionResult  Put(int id, [FromBody] string value)
         {
 
-            var course = _dataContext._course.Find(s => s.Id == id);
+            var course = _courseServise.GetCourses().Find(s => s.Id == id);
             if (course == null)
                 return NotFound();
             else
@@ -61,12 +63,12 @@ namespace Myproject.Controllers
         public  ActionResult Delete(int id)
         {
 
-            var course = _dataContext._course.Find(s => s.Id == id);
+            var course = _courseServise.GetCourses().Find(s => s.Id == id);
             if (course == null)
                 return NotFound();
             else
             {
-                _dataContext._course.Remove(course);
+                _courseServise.GetCourses().Remove(course);
                 return Ok();
             }
         }
