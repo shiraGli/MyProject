@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Myproject.Entities;
+
 using Solid.Core;
 using Solid.Core.Servise;
 
@@ -21,7 +21,7 @@ namespace Myproject.Controllers
         [HttpGet]
         public ActionResult<Course> Get()
         {
-            return Ok(_courseServise.GetCourses();
+            return Ok(_courseServise.GetCourses());
         }
 
         // GET api/<CourseController>/5

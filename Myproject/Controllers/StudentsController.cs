@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Myproject.Entities;
+using Solid.Core;
+using Solid.Core.Servise;
+using Solid.Servise;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,24 +11,25 @@ namespace Myproject.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
-        private DataContext _dataContext;
+        private IStudentServises _studentServises;
         private static int id = 0;
-        public StudentsController(DataContext dataContext)
+        public StudentsController(IStudentServises studentServises)
         {
-            _dataContext = dataContext;
+            _studentServises = studentServises;
         }
         // GET: api/<StudentsController>
+       
         [HttpGet]
-            public  IEnumerable <Student> Get()
+            public ActionResult<Student> Get()
         {
-               return _dataContext._students;
+            return Ok(_studentServises.GetStudents());
         }
 
         // GET api/<StudentsController>/5
         [HttpGet("{id}")]
         public ActionResult <Student> Get(int id)
         {
-            var stu = _dataContext._students.Find(s=>s.Id == id);
+            var stu = _studentServises.GetStudents().Find(s=>s.Id == id);
             if(stu==null)
                 return NotFound();
             else 
@@ -38,14 +41,14 @@ namespace Myproject.Controllers
         public void Post([FromBody] Student student1)
         {
 ;            id++;
-            _dataContext._students.Add(new Student{Id=id,Name= student1.Name } );
+            _studentServises.GetStudents().Add(new Student{Id=id,Name= student1.Name } );
         }
 
         // PUT api/<StudentsController>/5
         [HttpPut("{id}")]
         public ActionResult  Put(int id, [FromBody] string value)
         {
-            var stu = _dataContext._students.Find(s => s.Id == id);
+            var stu = _studentServises.GetStudents().Find(s => s.Id == id);
             if (stu == null)
                 return NotFound();
             else
@@ -61,12 +64,12 @@ namespace Myproject.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var stu = _dataContext._students.Find(s => s.Id == id);
+            var stu = _studentServises.GetStudents().Find(s => s.Id == id);
             if (stu == null)
                 return NotFound();
             else
             {
-                _dataContext._students.Remove(stu);
+                _studentServises.GetStudents().Remove(stu);
                 return Ok();
             }
         }

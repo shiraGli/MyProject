@@ -17,6 +17,9 @@ builder.Services.AddScoped<ICityServise, CityServise>();
 builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped<ICourseServise, CorseServise>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentsRepository>();
+builder.Services.AddScoped<IStudentServises,StudentServise>();
+builder.Services.AddDbContext<DataContext>();
 
 
 var app = builder.Build();

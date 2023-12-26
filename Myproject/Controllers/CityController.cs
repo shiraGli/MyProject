@@ -12,6 +12,7 @@ namespace Myproject.Controllers
     public class CityController : ControllerBase
     {
         private readonly ICityServise _cityServise;
+        private static int id = 0;
       
         public CityController(ICityServise cityServise)
         {
@@ -40,7 +41,8 @@ namespace Myproject.Controllers
         [HttpPost]
         public void Post([FromBody] City city1)
         {
-            _cityServise.city.Add(new City { Name = city1.Name,Count=city1.Count });
+             id++;
+            _cityServise.GetCities().Add(new City { Name = city1.Name,Count=city1.Count,Id=id });
         }
 
         // PUT api/<CityController>/5
@@ -48,7 +50,7 @@ namespace Myproject.Controllers
         public ActionResult  Put(int count, [FromBody] string name)
         {
 
-            var course = _cityServise.city.Find(s => s.Name == name);
+            var course = _cityServise.GetCities().Find(s => s.Name == name);
             if (course == null)
                 return NotFound();
             else
@@ -62,12 +64,12 @@ namespace Myproject.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(string name)
         {
-            var course = _dataContext.city.Find(s => s.Name == name);
+            var course = _cityServise.GetCities().Find(s => s.Name == name);
             if (course == null)
                 return NotFound();
             else
             {
-                _dataContext.city.Remove(course);
+                _cityServise.GetCities().Remove(course);
                 return Ok();
             }
         }
