@@ -28,48 +28,49 @@ namespace Myproject.Controllers
 
         // GET api/<CityController>/5
         [HttpGet("{id}")]
-        public ActionResult <City> Get(String name)
+        public ActionResult <City> Get(int id)
         {
-            var course = _cityServise.GetCities().Find(s => s.Name == name);
-            if (course == null)
+            var city = _cityServise.GetId(id);
+            if (city == null)
                 return NotFound();
             else
-                return course;
+                return city;
         }
 
         // POST api/<CityController>
         [HttpPost]
         public void Post([FromBody] City city1)
         {
-             id++;
-            _cityServise.GetCities().Add(new City { Name = city1.Name,Count=city1.Count,Id=id });
+             //id++;
+            //_cityServise.GetCities().Add(new City { Name = city1.Name,Count=city1.Count,Id=id });
+            _cityServise.AddCity(city1);
         }
 
         // PUT api/<CityController>/5
         [HttpPut("{id}")]
-        public ActionResult  Put(int count, [FromBody] string name)
+        public ActionResult  Put(int id, [FromBody] City city1)
         {
 
-            var course = _cityServise.GetCities().Find(s => s.Name == name);
-            if (course == null)
+            var city = _cityServise.GetId(id);
+            if (city == null)
                 return NotFound();
             else
             {
-                course.Count = count;
-                 return Ok();
+
+                return Ok(_cityServise.Update(id, city1));
             }
         }
 
         // DELETE api/<CityController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(string name)
+        public ActionResult Delete(int id)
         {
-            var course = _cityServise.GetCities().Find(s => s.Name == name);
+            var course = _cityServise.GetId(id);
             if (course == null)
                 return NotFound();
             else
             {
-                _cityServise.GetCities().Remove(course);
+                _cityServise.DeleteCity(id);
                 return Ok();
             }
         }

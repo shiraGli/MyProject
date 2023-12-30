@@ -29,7 +29,7 @@ namespace Myproject.Controllers
         [HttpGet("{id}")]
         public ActionResult <Student> Get(int id)
         {
-            var stu = _studentServises.GetStudents().Find(s=>s.Id == id);
+            var stu = _studentServises.GetId(id);
             if(stu==null)
                 return NotFound();
             else 
@@ -40,21 +40,21 @@ namespace Myproject.Controllers
         [HttpPost]
         public void Post([FromBody] Student student1)
         {
-;            id++;
-            _studentServises.GetStudents().Add(new Student{Id=id,Name= student1.Name } );
+;            //id++;
+            _studentServises.AddStudent(student1);
         }
 
         // PUT api/<StudentsController>/5
         [HttpPut("{id}")]
-        public ActionResult  Put(int id, [FromBody] string value)
+        public ActionResult  Put(int id, [FromBody] Student student)
         {
-            var stu = _studentServises.GetStudents().Find(s => s.Id == id);
+            var stu = _studentServises.GetId(id);
             if (stu == null)
                 return NotFound();
             else
             {
-                stu.Name = value;
-                return Ok();
+
+                return Ok(_studentServises.Update(id,student));
             }
                 
                 
@@ -64,12 +64,12 @@ namespace Myproject.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var stu = _studentServises.GetStudents().Find(s => s.Id == id);
+            var stu = _studentServises.GetId(id);
             if (stu == null)
                 return NotFound();
             else
             {
-                _studentServises.GetStudents().Remove(stu);
+                _studentServises.DeleteStudent(id);
                 return Ok();
             }
         }

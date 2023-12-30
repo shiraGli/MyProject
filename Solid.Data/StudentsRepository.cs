@@ -18,7 +18,34 @@ namespace Solid.Data
         }
         public List<Student> GetAllStudents()
         {
+            
             return _context._students.ToList();
+        }
+        public Student AddStudent(Student student)
+        {
+            _context._students.Add(student);
+            _context.SaveChanges();
+            return student;
+
+        }
+        public Student GetId(int id)
+        {
+            var student = _context._students.Find(id);
+            return student;
+            
+        }
+        public Student Update(int id, Student student)
+        {
+            var studentChange = GetId(id);
+            studentChange.Name = student.Name;
+            _context.SaveChanges();
+            return studentChange;
+        }
+        public void DeleteStudent(int id)
+        {
+            var student = _context._students.Find(id);
+            _context._students.Remove(student);
+            _context.SaveChanges();
         }
     }
 }

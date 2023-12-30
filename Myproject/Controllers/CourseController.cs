@@ -28,7 +28,7 @@ namespace Myproject.Controllers
         [HttpGet("{id}")]
         public ActionResult<Course> Get(int id)
         {
-            var course = _courseServise.GetCourses().Find(s => s.Id == id);
+            var course = _courseServise.GetId(id);
             if (course == null)
                 return NotFound();
             else
@@ -39,22 +39,21 @@ namespace Myproject.Controllers
         [HttpPost]
         public void Post([FromBody] Course course1)
         {
-            id++;
-            _courseServise.GetCourses().Add(new Course { Id = id, Name = course1.Name });
+           // id++;
+            _courseServise.AddCourse(course1);
         }
 
         // PUT api/<CourseController>/5
         [HttpPut("{id}")]
-        public ActionResult  Put(int id, [FromBody] string value)
+        public ActionResult  Put(int id, [FromBody] Course course1)
         {
 
-            var course = _courseServise.GetCourses().Find(s => s.Id == id);
+            var course = _courseServise.GetId(id);
             if (course == null)
                 return NotFound();
             else
             {
-                course.Name = value;
-                return Ok();
+                return Ok(_courseServise.Update(id,course1));
             }
         }
 
@@ -63,13 +62,13 @@ namespace Myproject.Controllers
         public  ActionResult Delete(int id)
         {
 
-            var course = _courseServise.GetCourses().Find(s => s.Id == id);
+            var course = _courseServise.GetId(id);
             if (course == null)
                 return NotFound();
             else
             {
-                _courseServise.GetCourses().Remove(course);
-                return Ok();
+                _courseServise.DeleteCourse(id);
+                return NoContent();
             }
         }
     }

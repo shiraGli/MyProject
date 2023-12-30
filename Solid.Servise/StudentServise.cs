@@ -21,6 +21,25 @@ namespace Solid.Servise
         {
             return _StudentRepository.GetAllStudents();
         }
+        public Student AddStudent(Student student)
+        {
+            return _StudentRepository.AddStudent(student);
+        }
+
+        public Student Update(int id, Student student)
+        {
+            return _StudentRepository.Update(id, student);
+        }
+        public void DeleteStudent(int id)
+        {
+            _StudentRepository.DeleteStudent(id);
+        }
+        public Student GetId(int id)
+        {
+            return _StudentRepository.GetId(id);
+        }
+
+
     }
 }
 

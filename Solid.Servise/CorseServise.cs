@@ -20,5 +20,22 @@ namespace Solid.Servise
         {
             return _courseRepository.GetAllCorse();
         }
+        public Course AddCourse(Course course)
+        {
+            return _courseRepository.AddCourse(course);
+        }
+        
+             public Course Update(int id, Course course)
+        {
+            return _courseRepository.Update(id, course);
+        }
+            public void DeleteCourse(int id)
+        {
+            _courseRepository.DeleteCourse(id);
+        }
+        public Course GetId(int id)
+        {
+            return _courseRepository.GetId(id);
+        }
     }
 }

@@ -20,5 +20,22 @@ namespace Solid.Servise
         {
             return _cityRepository.GetAllCity();
         }
+        public City AddCity(City city)
+        {
+            return _cityRepository.AddCity(city);
+        }
+        public City Update(int id, City city)
+        {
+            return _cityRepository.Update(id, city);
+           
+        }
+        public void DeleteCity(int id)
+        {
+            _cityRepository.DeleteCity(id);
+        }
+        public City GetId(int id)
+        {
+            return _cityRepository.GetId(id);
+        }
     }
 }

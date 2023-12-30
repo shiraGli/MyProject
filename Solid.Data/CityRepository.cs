@@ -20,6 +20,32 @@ namespace Solid.Data
         {
             return dataContext.city.ToList();
         }
+        public City AddCity(City city)
+        {
+            dataContext.city.Add(city);
+            dataContext.SaveChanges();
+            return city;
+            
+        }
+        public City GetId(int id)
+        {
+            var city = dataContext.city.Find(id);
+            return city;
+        }
+        public City Update(int id,City city)
+        {
+           var cityChange=GetId(id);
+            cityChange.Name = city.Name;
+            cityChange.Count= city.Count;
+            dataContext.SaveChanges();
+            return cityChange;
+        }
+        public void DeleteCity(int id)
+        {
+            var city=dataContext.city.Find(id);
+            dataContext.city.Remove(city);
+            dataContext.SaveChanges();
+        }
 
     }
 }
