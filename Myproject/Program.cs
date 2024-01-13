@@ -12,9 +12,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<DataContext>();
-builder.Services.AddScoped<ICityServise, CityServise>();
-builder.Services.AddScoped<ICityRepository, CityRepository>();
+//builder.Services.AddSingleton<DataContext>();
+builder.Services.AddScoped<ILoginServise, LoginServise>();
+builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 builder.Services.AddScoped<ICourseServise, CorseServise>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentsRepository>();

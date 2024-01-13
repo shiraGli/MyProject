@@ -9,7 +9,7 @@ namespace Solid.Data
     {
       
 
-        public DbSet<City> city { get; set; }
+        public DbSet<Login> login { get; set; }
         public DbSet<Course> _course { get; set; }
         public DbSet<Student> _students { get; set; }
         //private int _idC;
