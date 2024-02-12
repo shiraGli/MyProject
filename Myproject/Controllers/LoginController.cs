@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Myproject.Entities;
 using Solid.Core;
+using Solid.Core.DTOs;
 using Solid.Core.Servise;
 using Solid.Servise;
 
@@ -12,38 +15,44 @@ namespace Myproject.Controllers
     public class LoginController : ControllerBase
     {
         private readonly ILoginServise _loginServise;
+        private readonly IMapper _mapper;
         private static int id = 0;
       
-        public LoginController(ILoginServise loginServise)
+        public LoginController(ILoginServise loginServise,IMapper mapper)
         {
             _loginServise = loginServise;
+            _mapper = mapper;
         }
         
         // GET: api/<CityController>
         [HttpGet]
-        public ActionResult<Login> Get()
+        public ActionResult<LoginDto> Get()
         {
-            return Ok(_loginServise.GetLogins());
+            var list = _loginServise.GetLogins();
+            var listDto=_mapper.Map<LoginDto>(list);   
+            return Ok(listDto);
         }
 
         // GET api/<CityController>/5
         [HttpGet("{id}")]
-        public ActionResult <Login> Get(int id)
+        public ActionResult <LoginDto> Get(int id)
         {
             var login = _loginServise.GetId(id);
+            var loginDto=_mapper.Map<LoginDto>(login);
             if (login == null)
                 return NotFound();
             else
-                return login;
+                return loginDto;
         }
 
         // POST api/<CityController>
         [HttpPost]
-        public void Post([FromBody] Login login)
+        public void Post([FromBody] LoginPostModel login)
         {
-            //id++;
+               var loginToAdd = _mapper.Map<Login>(login);
+           //id++;
             //_cityServise.GetCities().Add(new City { Name = city1.Name,Count=city1.Count,Id=id });
-            _loginServise.AddLogins(login);
+            _loginServise.AddLogins(loginToAdd);
         }
 
         // PUT api/<CityController>/5

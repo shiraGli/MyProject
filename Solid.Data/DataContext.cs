@@ -8,15 +8,14 @@ namespace Solid.Data
     public class DataContext:DbContext
     {
       
-
-        public DbSet<Login> login { get; set; }
+        public DbSet<Login> _login { get; set; }
         public DbSet<Course> _course { get; set; }
         public DbSet<Student> _students { get; set; }
         //private int _idC;
         //private int _idS;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=shirs_glick_db");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=shira_glick_db");
         }
 
         //public DataContext()
