@@ -37,7 +37,8 @@ namespace Solid.Data
         public Student Update(int id, Student student)
         {
             var studentChange = GetId(id);
-            studentChange.Name = student.Name;
+            studentChange.FirstName = student.FirstName;
+            studentChange.LastName = student.LastName;
             _context.SaveChanges();
             return studentChange;
         }
